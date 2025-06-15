@@ -64,7 +64,23 @@ function SetMoney(playerId, account, amount)
     end
 end
 
+function SetHunger(playerId, amount)
+    exports['wix_core']:Debug('EXPORTS', 'Setting hunger: '.. amount..' to player: '.. playerId)
+    if Framework == 'ESX' then
+        TriggerEvent('esx_status:set', playerId, 'hunger', amount)
+    elseif Framework == 'QB' then
+        local Player = QBCore.Functions.GetPlayer(playerId)
+        Player.Functions.SetMetaData("hunger", amount)
+    elseif Framework == 'QBX' then
+        exports['qbx_core']:SetMetadata(playerId, "hunger", amount)
+    else
+        exports['wix_core']:Debug('ERROR', 'Framework not configured correctly.')
+    end
+end
+
+
 exports('AddMoney', AddMoney)
 exports('RemoveMoney', RemoveMoney)
 exports('GetMoney', GetMoney)
 exports('SetMoney', SetMoney)
+exports('SetHunger', SetHunger)
